@@ -11,18 +11,10 @@ import ru.solovev.xml.parse.ParseXml;
 public class App {
     public static void main(String[] args) {
 
-        //TODO: настраиваем подключение к БД +
-        //TODO: пишем даные в БД +
-        //TODO: Запрашиваем данные из бд и формируем XML сохраняем в систему+
-        //TODO: с помощью XSLT преоразуем в другой XML. сохраняем в систему+
-        //TODO: парсим 2.xml и суммируем все значения полей филд - выводим в консоли +
-
-        //TODO: вынести данные к пропертис из командной строки
         int numberOfInputRow = 0;
         String pathToFirstXML = "";
         String pathToSecondXML = "";
         String pathToXslt = "";
-
 
         try {
             PropertiesSystemLoader propertiesSystemLoader = PropertiesSystemLoader.getInstance();
@@ -38,11 +30,6 @@ public class App {
             System.out.println(pathToXslt);
             System.out.println(numberOfInputRow);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
             TableBuilder tableBuilder = new TableBuilder(
                     numberOfInputRow,
                     new UserDaoJdbcImpl(

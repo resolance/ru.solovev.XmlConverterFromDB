@@ -13,7 +13,7 @@ public class ConnectionHolderTest {
     @Test
     public void getConnectionSuccess() throws Exception {
         final String sql = "SELECT count(*) FROM test";
-        try (Connection con = ConnectionHolder.getInstance().getConnection();) {
+        try (Connection con = ConnectionHolder.getInstance().getConnection()) {
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             rs.next();
