@@ -4,6 +4,8 @@ import ru.solovev.XmlWorker.ParseXml.ParseXml;
 import ru.solovev.XmlWorker.XmlBuilder.MarshallerXmlFromDb;
 import ru.solovev.XmlWorker.XmlConvertor.XmlConvertorXslt;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class AppTest {
     public static void main(String[] args) {
@@ -13,7 +15,7 @@ public class AppTest {
         String outputSource = "./2.xml";
         String pathToXslt = "./rebuildXml.xsl";
         int result = 0;
-
+        long start = System.nanoTime();
 
         int numberOfInputRow = 100;
         try {
@@ -45,6 +47,8 @@ public class AppTest {
             }else {
                 System.out.println("\nWARNING!!! \nParsed value and test result are not equal");
             }
+            long end = System.nanoTime();
+            System.out.println("App running : " + TimeUnit.SECONDS.convert((end-start), TimeUnit.NANOSECONDS) + "ms");
 
         } catch (Exception e) {
             e.printStackTrace();
