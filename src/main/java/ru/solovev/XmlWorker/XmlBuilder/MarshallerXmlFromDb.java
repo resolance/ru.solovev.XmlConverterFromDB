@@ -38,12 +38,12 @@ public class MarshallerXmlFromDb {
         Entries entries = userDaoJdbc.readTable(numberOfInsertedRow);
 
         //TODO: Сделать логирование, пока просто в консоль и добавить время
-        System.out.println("\nCreate XML\n");
+        System.out.println("\nCreate XML");
         marshaller.marshal(entries, new FileOutputStream(pathToFirstXML));
         //marshaller.marshal(entries, System.out);
 
         //TODO: Сделать проверку наличия файла
-        System.out.println("\nDone. first XML saved in " + pathToFirstXML +"\n");
+        System.out.println("\nDone. first XML saved in: " + pathToFirstXML +"\n");
         connection.close();
     }
 }

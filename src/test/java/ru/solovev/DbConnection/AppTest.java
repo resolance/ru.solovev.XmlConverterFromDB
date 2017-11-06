@@ -1,18 +1,21 @@
 package ru.solovev.DbConnection;
 
+import ru.solovev.XmlWorker.ParseXml.ParseXml;
 import ru.solovev.XmlWorker.XmlBuilder.MarshallerXmlFromDb;
 import ru.solovev.XmlWorker.XmlConvertor.XmlConvertorXslt;
+
 
 public class AppTest {
     public static void main(String[] args) {
 
-        String ar = "10";
+        String ar = "100";
         String pathToFirstXML = "./1.xml";
         String outputSource = "./2.xml";
         String pathToXslt = "./rebuildXml.xsl";
+        int result = 0;
 
 
-        int numberOfInputRow = 10;
+        int numberOfInputRow = 100;
         try {
             numberOfInputRow = Integer.parseInt(ar);
         } catch (ClassFormatError e) {
@@ -26,8 +29,22 @@ public class AppTest {
             MarshallerXmlFromDb marshallerXmlFromDb = new MarshallerXmlFromDb(numberOfInputRow, pathToFirstXML);
             marshallerXmlFromDb.getXmlFromDb();
 
-            XmlConvertorXslt xmlConvertorXslt = new XmlConvertorXslt(pathToFirstXML,outputSource,pathToXslt);
+            XmlConvertorXslt xmlConvertorXslt = new XmlConvertorXslt(pathToFirstXML, outputSource, pathToXslt);
             xmlConvertorXslt.doNewXml();
+
+            ParseXml parseXml = new ParseXml(outputSource);
+            System.out.println("\nResult of summing field attributes = " + parseXml.getResultParseXml());
+
+
+            for (int i = 1; i <= numberOfInputRow; i++) {
+                result = result + i;
+            }
+
+            if (result == parseXml.getResultParseXml()) {
+                System.out.println("\nParsed value and test result are equal");
+            }else {
+                System.out.println("\nWARNING!!! \nParsed value and test result are not equal");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
