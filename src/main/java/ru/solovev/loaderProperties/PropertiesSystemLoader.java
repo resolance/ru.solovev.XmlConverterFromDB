@@ -3,9 +3,12 @@ package ru.solovev.loaderProperties;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class PropertiesSystemLoader {
+    private static final Logger LOG = Logger.getLogger(PropertiesDBLoader.class.getName());
     private static PropertiesSystemLoader propertiesSystemLoader;
 
     private final String pathToSystemProperties = "system.properties";
@@ -32,6 +35,19 @@ public class PropertiesSystemLoader {
         this.pathToSecondXML = properties.getProperty("system.secondXmlName");
         this.pathToXsltTransformer = properties.getProperty("system.xsltTranformer");
         this.numberRows = properties.getProperty("system.valueNum");
+        LOG.log(Level.INFO,
+                "Load system properties:" +
+                        "\nfirstXmlName: {0}" +
+                        "\nsecondXmlName: {1}" +
+                        "\nxsltTranformer: {2}" +
+                        "\nvalueNum: {3}",
+                new Object[]{
+                        pathToFirstXML,
+                        pathToSecondXML,
+                        pathToXsltTransformer,
+                        numberRows
+                }
+        );
     }
 
     public String getFirstXmlName() {

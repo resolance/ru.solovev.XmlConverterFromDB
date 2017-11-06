@@ -25,10 +25,6 @@ public class App {
             pathToSecondXML = defaultPath + "/" + propertiesSystemLoader.getSecondXmlName();
             pathToXslt = propertiesSystemLoader.getPathToXsltTransformer();
             numberOfInputRow = Integer.parseInt(propertiesSystemLoader.getNumberRows());
-            System.out.println(pathToFirstXML);
-            System.out.println(pathToSecondXML);
-            System.out.println(pathToXslt);
-            System.out.println(numberOfInputRow);
 
             TableBuilder tableBuilder = new TableBuilder(
                     numberOfInputRow,
