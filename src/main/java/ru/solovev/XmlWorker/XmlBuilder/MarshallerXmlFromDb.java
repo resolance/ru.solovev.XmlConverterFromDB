@@ -1,4 +1,4 @@
-package ru.solovev.ConvertXml.CreateXmlFromDb;
+package ru.solovev.XmlWorker.XmlBuilder;
 
 
 import ru.solovev.DbConnection.ConnectionHolder;

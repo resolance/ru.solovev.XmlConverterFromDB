@@ -1,6 +1,6 @@
 package ru.solovev.DbConnection;
 
-import ru.solovev.ConvertXml.CreateXmlFromDb.Entries;
+import ru.solovev.XmlWorker.XmlBuilder.Entries;
 import ru.solovev.DbConnection.ExceptionApp.DbException;
 
 import java.sql.SQLException;

@@ -1,6 +1,6 @@
 package ru.solovev;
 
-import ru.solovev.ConvertXml.CreateXmlFromDb.MarshallerXmlFromDb;
+import ru.solovev.XmlWorker.XmlBuilder.MarshallerXmlFromDb;
 import ru.solovev.DbConnection.TableBuilder;
 
 public class App {

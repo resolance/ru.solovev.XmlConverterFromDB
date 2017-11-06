@@ -1,6 +1,6 @@
 package ConvertXml;
 
-import ru.solovev.ConvertXml.CreateXmlFromDb.Entries;
+import ru.solovev.XmlWorker.XmlBuilder.Entries;
 import ru.solovev.DbConnection.ConnectionHolder;
 import ru.solovev.DbConnection.UserDaoJdbc;
 import ru.solovev.DbConnection.UserDaoJdbcImpl;
