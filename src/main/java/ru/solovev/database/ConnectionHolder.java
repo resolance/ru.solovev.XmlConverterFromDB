@@ -1,7 +1,7 @@
-package ru.solovev.DbConnection;
+package ru.solovev.database;
 
-import ru.solovev.DbConnection.ExceptionApp.DbException;
-import ru.solovev.LoaderProperties.LoaderProperties;
+import ru.solovev.database.exceptionApp.DbException;
+import ru.solovev.loaderProperties.PropertiesDBLoader;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,7 +19,7 @@ public class ConnectionHolder {
 
     public Connection getConnection() throws Exception {
         try {
-            LoaderProperties loadProperties = LoaderProperties.getInstance();
+            PropertiesDBLoader loadProperties = PropertiesDBLoader.getInstance();
             return DriverManager.getConnection(
                     loadProperties.getJdbcUrl(),
                     loadProperties.getLogin(),

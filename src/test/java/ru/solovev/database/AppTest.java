@@ -1,8 +1,9 @@
-package ru.solovev.DbConnection;
+package ru.solovev.database;
 
-import ru.solovev.XmlWorker.ParseXml.ParseXml;
-import ru.solovev.XmlWorker.XmlBuilder.MarshallerXmlFromDb;
-import ru.solovev.XmlWorker.XmlConvertor.XmlConvertorXslt;
+import ru.solovev.service.TableBuilder;
+import ru.solovev.xml.build.MarshallerXmlFromDb;
+import ru.solovev.xml.converter.XmlConverterXslt;
+import ru.solovev.xml.parse.ParseXml;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,14 +26,14 @@ public class AppTest {
         }
 
         try {
-            TableBuilder tableBuilder = new TableBuilder(numberOfInputRow);
+            TableBuilder tableBuilder = new TableBuilder(numberOfInputRow, new UserDaoJdbcImpl(ConnectionHolder.getInstance().getConnection()));
             tableBuilder.fillTable();
 
             MarshallerXmlFromDb marshallerXmlFromDb = new MarshallerXmlFromDb(numberOfInputRow, pathToFirstXML);
             marshallerXmlFromDb.getXmlFromDb();
 
-            XmlConvertorXslt xmlConvertorXslt = new XmlConvertorXslt(pathToFirstXML, outputSource, pathToXslt);
-            xmlConvertorXslt.doNewXml();
+            XmlConverterXslt xmlConverterXslt = new XmlConverterXslt(pathToFirstXML, outputSource, pathToXslt);
+            xmlConverterXslt.doNewXml();
 
             ParseXml parseXml = new ParseXml(outputSource);
             System.out.println("\nResult of summing field attributes = " + parseXml.getResultParseXml());
@@ -44,11 +45,11 @@ public class AppTest {
 
             if (result == parseXml.getResultParseXml()) {
                 System.out.println("\nParsed value and test result are equal");
-            }else {
+            } else {
                 System.out.println("\nWARNING!!! \nParsed value and test result are not equal");
             }
             long end = System.nanoTime();
-            System.out.println("App running : " + TimeUnit.SECONDS.convert((end-start), TimeUnit.NANOSECONDS) + "ms");
+            System.out.println("App running : " + TimeUnit.SECONDS.convert((end - start), TimeUnit.NANOSECONDS) + "ms");
 
         } catch (Exception e) {
             e.printStackTrace();

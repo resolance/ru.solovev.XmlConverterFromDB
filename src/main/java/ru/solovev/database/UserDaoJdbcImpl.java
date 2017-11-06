@@ -1,8 +1,8 @@
-package ru.solovev.DbConnection;
+package ru.solovev.database;
 
-import ru.solovev.XmlWorker.XmlBuilder.Entries;
-import ru.solovev.XmlWorker.XmlBuilder.EntryObj;
-import ru.solovev.DbConnection.ExceptionApp.DbException;
+import ru.solovev.database.exceptionApp.DbException;
+import ru.solovev.xml.build.Entries;
+import ru.solovev.xml.build.EntryObj;
 
 import java.sql.*;
 

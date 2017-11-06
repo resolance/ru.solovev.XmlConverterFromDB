@@ -1,9 +1,9 @@
-package ru.solovev.XmlWorker.XmlBuilder;
+package ru.solovev.xml.build;
 
 
-import ru.solovev.DbConnection.ConnectionHolder;
-import ru.solovev.DbConnection.UserDaoJdbc;
-import ru.solovev.DbConnection.UserDaoJdbcImpl;
+import ru.solovev.database.ConnectionHolder;
+import ru.solovev.database.UserDaoJdbc;
+import ru.solovev.database.UserDaoJdbcImpl;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;

@@ -1,9 +1,9 @@
 package ConvertXml;
 
-import ru.solovev.XmlWorker.XmlBuilder.Entries;
-import ru.solovev.DbConnection.ConnectionHolder;
-import ru.solovev.DbConnection.UserDaoJdbc;
-import ru.solovev.DbConnection.UserDaoJdbcImpl;
+import ru.solovev.database.ConnectionHolder;
+import ru.solovev.database.UserDaoJdbc;
+import ru.solovev.database.UserDaoJdbcImpl;
+import ru.solovev.xml.build.Entries;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;

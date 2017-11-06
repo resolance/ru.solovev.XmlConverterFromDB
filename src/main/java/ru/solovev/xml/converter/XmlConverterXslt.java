@@ -1,4 +1,4 @@
-package ru.solovev.XmlWorker.XmlConvertor;
+package ru.solovev.xml.converter;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -6,13 +6,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-public class XmlConvertorXslt {
+public class XmlConverterXslt {
 
     private final String inputSource;
     private final String outputSource;
     private final String xsltPath;
 
-    public XmlConvertorXslt(String inputSource, String outputSource, String xsltPath){
+    public XmlConverterXslt(String inputSource, String outputSource, String xsltPath){
         this.inputSource = inputSource;
         this.outputSource = outputSource;
         this.xsltPath = xsltPath;

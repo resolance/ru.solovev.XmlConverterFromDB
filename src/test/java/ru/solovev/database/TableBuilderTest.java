@@ -1,4 +1,4 @@
-package ru.solovev.DbConnection;
+package ru.solovev.database;
 
 import java.sql.Connection;
 

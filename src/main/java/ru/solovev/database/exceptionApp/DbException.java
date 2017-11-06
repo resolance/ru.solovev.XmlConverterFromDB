@@ -1,4 +1,4 @@
-package ru.solovev.DbConnection.ExceptionApp;
+package ru.solovev.database.exceptionApp;
 
 public class DbException extends Exception {
     public DbException(String message) {

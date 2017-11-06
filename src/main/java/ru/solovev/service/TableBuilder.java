@@ -1,6 +1,6 @@
-package ru.solovev.DbConnection;
+package ru.solovev.service;
 
-import java.sql.Connection;
+import ru.solovev.database.UserDaoJdbc;
 
 /***
  * Проверяем есть ли в таблице записи, если есть удаляем их.
@@ -9,15 +9,14 @@ import java.sql.Connection;
 public class TableBuilder{
 
     private int numberOfInputRow;
-    private Connection connection;
+    private UserDaoJdbc userDaoJdbc;
 
-    public TableBuilder(int numberOfInputRow) throws Exception {
+    public TableBuilder(int numberOfInputRow, UserDaoJdbc userDaoJdbc) throws Exception {
         this.numberOfInputRow = numberOfInputRow;
+        this.userDaoJdbc = userDaoJdbc;
     }
 
     public void fillTable() throws Exception {
-        connection = ConnectionHolder.getInstance().getConnection();
-        UserDaoJdbcImpl userDaoJdbc = new UserDaoJdbcImpl(this.connection);
         int countTableRow = userDaoJdbc.checkCountTableRow();
 
         if (countTableRow != 0) {
@@ -26,6 +25,5 @@ public class TableBuilder{
         }
 
         userDaoJdbc.insertRow(numberOfInputRow);
-        connection.close();
     }
 }
