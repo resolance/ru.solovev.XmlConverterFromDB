@@ -38,9 +38,18 @@ public class PropertiesDBLoader {
         this.password = properties.getProperty("jdbc.password");
         this.jdbcUrl = properties.getProperty("jdbc.url");
         LOG.log(
-                Level.INFO,
-                "Load JDBC properties:\ndriver: {0}\nlogin: {1}\npass: {2}\nurl: {3}",
-                new Object[]{driverClassName, login, password, jdbcUrl}
+                Level.CONFIG,
+                "Load JDBC properties:" +
+                        "\ndriver: {0}" +
+                        "\nlogin: {1}" +
+                        "\npass: {2}" +
+                        "\nurl: {3}",
+                new Object[]{
+                        driverClassName,
+                        login,
+                        password,
+                        jdbcUrl
+                }
         );
     }
 

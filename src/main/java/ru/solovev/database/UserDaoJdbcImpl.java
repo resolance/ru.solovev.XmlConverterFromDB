@@ -5,9 +5,11 @@ import ru.solovev.xml.build.Entries;
 import ru.solovev.xml.build.EntryObj;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserDaoJdbcImpl implements UserDaoJdbc {
-
+    public static final Logger LOG = Logger.getLogger(UserDaoJdbcImpl.class.getName());
     public static final String CHECK_COUNT_TABLE_ROW = "SELECT count(*) FROM magnit.test;";
     public static final String INSERT_ROW = "INSERT INTO magnit.test (field) values (?);";
     public static final String DELETE_ROW = "DELETE FROM magnit.test;";
@@ -33,8 +35,8 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
             if (rs.next()) {
                 numberOfRow = Integer.parseInt(rs.getString(1));
             }
+            //LOG.log(Level.INFO, "Get {0} rows", new Object[]{numberOfRow});
             return numberOfRow;
-
         } catch (SQLException e) {
             this.connection.rollback();
             throw new DbException("Can't execute sql = " + CHECK_COUNT_TABLE_ROW);
@@ -61,8 +63,8 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
             int[] result = st.executeBatch();
             this.connection.commit();
 
-            //TODO: сделать логирование вставленных строк
-            System.out.println("The number of rows inserted: " + result.length);
+            LOG.log(Level.INFO,"Add: {0} rows ", new Object[]{ result.length});
+            //System.out.println("The number of rows inserted: " + result.length);
 
         } catch (SQLException e) {
             this.connection.rollback();
@@ -87,21 +89,20 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
             int countAfter = 0;
 
             if (0 == countBefore) {
-                System.out.println("Nothing to clean");
+                LOG.log(Level.INFO,"Nothing to clean. Rows in table: ", new Object[]{ countBefore});
             } else {
                 ps = connection.prepareStatement(DELETE_ROW);
                 ps.execute();
                 this.connection.commit();
                 countAfter = checkCountTableRow();
                 if (0 == countAfter) {
-                    System.out.println("Table is clear. Delete " + countBefore + " rows.");
+                    LOG.log(Level.INFO,"Table is clear. Delete {0} rows", new Object[]{countBefore});
                 } else {
+                    //TODO: нужна запись в лог?
                     throw new DbException("Can't delete rows.");
                 }
 
             }
-
-            //TODO: добавить вывод в лог
         } catch (SQLException e) {
             this.connection.rollback();
             System.err.println(e.getSQLState());

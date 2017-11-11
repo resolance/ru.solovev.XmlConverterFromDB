@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class ConnectionHolder {
-
     private static ConnectionHolder connectionHolder;
 
     public static synchronized ConnectionHolder getInstance(){
