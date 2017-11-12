@@ -67,7 +67,7 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
             int[] result = st.executeBatch();
             this.connection.commit();
 
-            LOG.log(Level.INFO,"Add: {0} rows ", new Object[]{ result.length});
+            LOG.log(Level.INFO, "Add: {0} rows ", new Object[]{result.length});
 
         } catch (SQLException e) {
             //TODO: add logging
@@ -93,14 +93,14 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
             int countAfter = 0;
 
             if (0 == countBefore) {
-                LOG.log(Level.INFO,"Nothing to clean. Rows in table: ", new Object[]{ countBefore});
+                LOG.log(Level.INFO, "Nothing to clean. Rows in table: ", new Object[]{countBefore});
             } else {
                 ps = connection.prepareStatement(DELETE_ROW);
                 ps.execute();
                 this.connection.commit();
                 countAfter = getCountRows();
                 if (0 == countAfter) {
-                    LOG.log(Level.INFO,"Table are cleared. Delete {0} rows", new Object[]{countBefore});
+                    LOG.log(Level.INFO, "Table are cleared. Delete {0} rows", new Object[]{countBefore});
                 } else {
                     //TODO: add logging
                     throw new DbException("Can't delete rows.");
@@ -143,17 +143,17 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
                 entries.add(new EntryObj(rs.getInt(1)));
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             //TODO: add logging
             this.connection.rollback();
             System.err.println(e.getSQLState());
             throw new DbException("Can't execute sql = " + READ_TABLE);
 
         } finally {
-            if (st != null){
+            if (st != null) {
                 st.close();
             }
-            if (rs != null){
+            if (rs != null) {
                 rs.close();
             }
         }

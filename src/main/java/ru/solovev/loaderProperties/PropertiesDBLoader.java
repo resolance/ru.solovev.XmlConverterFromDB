@@ -55,6 +55,7 @@ public class PropertiesDBLoader {
             );
         }
     }
+
     public String getDriverClassName() {
         return this.driverClassName;
     }

@@ -12,11 +12,11 @@ public class ConnectionHolder {
     private static final Logger LOG = Logger.getLogger(ConnectionHolder.class.getName());
     private static ConnectionHolder connectionHolder;
 
-    public static synchronized ConnectionHolder getInstance(){
+    public static synchronized ConnectionHolder getInstance() {
         if (connectionHolder == null) {
             connectionHolder = new ConnectionHolder();
         }
-         return connectionHolder;
+        return connectionHolder;
     }
 
     public Connection getConnection() throws Exception {
@@ -29,7 +29,7 @@ public class ConnectionHolder {
             );
 
         } catch (Exception e) {
-            LOG.log(Level.SEVERE,"Can't create connection",e);
+            LOG.log(Level.SEVERE, "Can't create connection", e);
             throw new DbException("Can't create connection", e);
         }
     }

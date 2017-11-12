@@ -6,12 +6,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class EntryObj {
 
-    @XmlElement(name = "field",required = true)
+    @XmlElement(name = "field", required = true)
     private int field;
 
-    public EntryObj(){}
+    public EntryObj() {
+    }
 
-    public EntryObj(int field){
+    public EntryObj(int field) {
         this.field = field;
     }
 

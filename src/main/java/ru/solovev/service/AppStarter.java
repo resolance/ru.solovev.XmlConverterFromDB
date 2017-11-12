@@ -45,7 +45,7 @@ public class AppStarter {
              * Insert data in mySql or other DataBase
              *
              */
-            LOG.log(Level.INFO,"Staring App");
+            LOG.log(Level.INFO, "Staring App");
             TableBuilder tableBuilder = new TableBuilder(
                     numberOfInputRow,
                     new UserDaoJdbcImpl(
@@ -80,7 +80,7 @@ public class AppStarter {
                 LOG.log(Level.INFO, "Done. Result of summing field attributes = {0}",
                         new Object[]{parseXml.getResultParseXml()});
             }
-            LOG.log(Level.INFO,"Finish App");
+            LOG.log(Level.INFO, "Finish App");
 
         } catch (Exception e) {
             e.printStackTrace();

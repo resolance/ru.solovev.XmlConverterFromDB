@@ -13,19 +13,19 @@ public class PropertiesLoggerLoader {
 
     public static PropertiesLoggerLoader propertiesLoggerLoader;
 
-    public static PropertiesLoggerLoader getInstance() throws Exception{
-        if( null == propertiesLoggerLoader ){
+    public static PropertiesLoggerLoader getInstance() throws Exception {
+        if (null == propertiesLoggerLoader) {
             propertiesLoggerLoader = new PropertiesLoggerLoader();
         }
-        return  propertiesLoggerLoader;
+        return propertiesLoggerLoader;
     }
 
     private PropertiesLoggerLoader() {
         try {
             LogManager.getLogManager().readConfiguration(
                     AppStarter.class.getResourceAsStream(pathToLoggerProperties));
-        }catch (Exception ex){
-            LOG.log(Level.ALL,"Can't read file {0} ", new Object[]{pathToLoggerProperties, ex} );
+        } catch (Exception ex) {
+            LOG.log(Level.ALL, "Can't read file {0} ", new Object[]{pathToLoggerProperties, ex});
         }
     }
 
