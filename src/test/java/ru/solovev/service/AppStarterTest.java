@@ -11,7 +11,10 @@ public class AppStarterTest {
      @Test
     public void appStart() throws Exception {
         PropertiesSystemLoader propertiesDBLoader = PropertiesSystemLoader.getInstance();
-        ParseXml parseXml = new ParseXml(propertiesDBLoader.getSecondXmlName());
+        String secondXmlName = propertiesDBLoader.getSecondXmlName();
+
+        ParseXml parseXml = new ParseXml(secondXmlName);
+        int resultParse = parseXml.getResultParseXml();
 
         int value = Integer.parseInt(propertiesDBLoader.getNumberRows());
         int checkSumm = 0;
@@ -20,6 +23,6 @@ public class AppStarterTest {
             checkSumm = checkSumm + i;
         }
         System.out.println(checkSumm);
-        assertEquals(checkSumm, parseXml.getResultParseXml());
+        assertEquals(checkSumm,resultParse );
     }
 }

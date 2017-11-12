@@ -23,11 +23,11 @@ public class XmlConverterXslt {
     public String doNewXml() {
         try {
             TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer = tf.newTransformer(new StreamSource(xsltPath));
-            transformer.transform(new StreamSource(inputSource), new StreamResult(outputSource));
+            Transformer transformer = tf.newTransformer(new StreamSource(this.xsltPath));
+            transformer.transform(new StreamSource(this.inputSource), new StreamResult(this.outputSource));
 
-            LOG.log(Level.INFO, "Transform complete. See new XML in: {0} ", new Object[]{outputSource});
-            return outputSource;
+            LOG.log(Level.INFO, "Transform complete. See new XML in: {0} ", new Object[]{this.outputSource});
+            return this.outputSource;
 
         } catch (TransformerException ex) {
             LOG.log(Level.SEVERE, "Transformation error. {0} ", new Object[]{ex});

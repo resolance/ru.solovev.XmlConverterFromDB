@@ -13,11 +13,12 @@ import java.util.logging.Logger;
 
 public class ParseXml {
     private static final Logger LOG = Logger.getLogger(ParseXml.class.getName());
+
     private final String filePath;
     private File file;
     private int summFieldValue;
 
-    public ParseXml(final String filePath) {
+    public ParseXml(String filePath) {
         this.filePath = filePath;
     }
 
@@ -51,6 +52,8 @@ public class ParseXml {
                                 + Integer.parseInt(reader.getAttributeValue(0));
                     }
                 }
+                return summFieldValue;
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (XMLStreamException e) {
@@ -65,6 +68,6 @@ public class ParseXml {
                 }
             }
         }
-        return summFieldValue;
+      return -1;
     }
 }

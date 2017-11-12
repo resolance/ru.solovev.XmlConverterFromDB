@@ -22,12 +22,12 @@ public class AppStarter {
     private String pathToXslt;
 
     public void appStart() {
-
         setSystemPath();
         LOG.log(Level.INFO, "Staring App");
 
         prepareTable();
         transformDataToXML(getNumberOfInputRow(), getPathToFirstXML());
+
         checkAndMath(getPathToTransformedXml(
                 getPathToFirstXML(), getPathToSecondXML(), getPathToXslt()));
 
@@ -54,8 +54,9 @@ public class AppStarter {
             LOG.log(Level.INFO, "Can't create or read file" + pathToXML);
         } else {
             ParseXml parseXml = new ParseXml(pathToXML);
+            int result = parseXml.getResultParseXml();
             LOG.log(Level.INFO, "Done. Result of summing field attributes = {0}",
-                    new Object[]{parseXml.getResultParseXml()});
+                    new Object[]{result});
         }
 
     }
