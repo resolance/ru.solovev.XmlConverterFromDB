@@ -2,7 +2,6 @@ package ru.solovev.loaderProperties;
 
 import ru.solovev.service.AppStarter;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;

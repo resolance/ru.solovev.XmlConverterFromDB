@@ -1,9 +1,8 @@
-package ru.solovev.ConvertXml;
+package ru.solovev.xml.build;
 
 import ru.solovev.database.ConnectionHolder;
 import ru.solovev.database.UserDaoJdbc;
 import ru.solovev.database.UserDaoJdbcImpl;
-import ru.solovev.xml.build.Entries;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;

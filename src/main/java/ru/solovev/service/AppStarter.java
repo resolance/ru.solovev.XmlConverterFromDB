@@ -1,7 +1,6 @@
 package ru.solovev.service;
 
 
-import ru.solovev.App;
 import ru.solovev.database.ConnectionHolder;
 import ru.solovev.database.UserDaoJdbcImpl;
 import ru.solovev.loaderProperties.PropertiesLoggerLoader;

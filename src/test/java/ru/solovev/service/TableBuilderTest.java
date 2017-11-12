@@ -1,49 +1,39 @@
 package ru.solovev.service;
 
+import org.junit.Test;
 import ru.solovev.database.ConnectionHolder;
 import ru.solovev.database.UserDaoJdbcImpl;
+import ru.solovev.loaderProperties.PropertiesSystemLoader;
 
-import java.sql.Connection;
+import java.util.concurrent.TimeUnit;
+import static org.junit.Assert.assertTrue;
 
 public class TableBuilderTest {
+    @Test
+    public void fillTable() throws Exception {
 
-    public static void main(String[] args) throws Exception {
+        long startTime;
+        long endTime;
+        long duration;
+        long condition = 30000;
+        boolean isCondition = false;
 
-        Connection connection = ConnectionHolder.getInstance().getConnection();
-        UserDaoJdbcImpl userDaoJdbc = new UserDaoJdbcImpl(connection);
-        int numberOfRow = 10_000;
+        PropertiesSystemLoader propertiesSystemLoader = PropertiesSystemLoader.getInstance();
+        TableBuilder tableBuilder = new TableBuilder(
+                Integer.parseInt(propertiesSystemLoader.getNumberRows()), new UserDaoJdbcImpl(
+                ConnectionHolder.getInstance().getConnection())
+        );
+        startTime = System.nanoTime();
+        tableBuilder.fillTable();
+        endTime = System.nanoTime();
+        duration = TimeUnit.MILLISECONDS.convert((endTime - startTime), TimeUnit.NANOSECONDS);
 
-        /*Проверяем коунт таблицы*/
-        int countTableRow = userDaoJdbc.checkCountTableRow();
-        System.out.println("\nNumber of row in table before is: " + countTableRow);
-
-        /*Грохаем строки в таблице*/
-        long start = System.nanoTime();
-        userDaoJdbc.deleteRow();
-        long end = System.nanoTime();
-        long startTime = System.nanoTime();
-        System.out.println("Time for cleaning table is: " + deltaTime(start, end) + " ms.\n");
-
-
-        /*Инсертим строки*/
-        start = System.nanoTime();
-        userDaoJdbc.insertRow(numberOfRow);
-        end = System.nanoTime();
-        System.out.println("Time for inserting " + numberOfRow + " rows: " + deltaTime(start, end) + " ms.");
-
-        /*Либо через
-        *   long endTime = System.nanoTime();
-        *   long duration = endTime - startTime;
-        *   duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-        */
-
-        connection.close();
-
-
+        if (condition > duration) {
+            isCondition = true;
+        } else {
+            isCondition = false;
+        }
+        assertTrue(isCondition);
     }
 
-    public static long deltaTime(long start, long end) {
-        long delta = (end - start) / 1000000;
-        return delta;
-    }
 }

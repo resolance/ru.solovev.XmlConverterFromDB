@@ -22,17 +22,16 @@ public class XmlConverterXslt {
 
     public String doNewXml() {
         try {
-            //TODO: Сделать логирование
             //TODO: Сделать проверку на сущ-ие каталога, поиск по каталогу файла стиля XSLT
-
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer transformer = tf.newTransformer(new StreamSource(xsltPath));
             transformer.transform(new StreamSource(inputSource), new StreamResult(outputSource));
+
             LOG.log(Level.INFO, "Transform complete. See new XML in: {0} ", new Object[]{outputSource});
             return outputSource;
 
         } catch (TransformerException ex) {
-            LOG.log(Level.INFO, "Transformation error. {0} ", new Object[]{ex.toString()});
+            LOG.log(Level.SEVERE, "Transformation error. {0} ", new Object[]{ex});
             return null;
         }
 

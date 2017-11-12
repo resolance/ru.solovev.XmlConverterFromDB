@@ -2,10 +2,6 @@ package ru.solovev.service;
 
 import ru.solovev.database.UserDaoJdbc;
 
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /***
  * Проверяем есть ли в таблице записи, если есть удаляем их.
  */
