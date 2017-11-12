@@ -1,4 +1,4 @@
-package ConvertXml;
+package ru.solovev.ConvertXml;
 
 import ru.solovev.database.ConnectionHolder;
 import ru.solovev.database.UserDaoJdbc;

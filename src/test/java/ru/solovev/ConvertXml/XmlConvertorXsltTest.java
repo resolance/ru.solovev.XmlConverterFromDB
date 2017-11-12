@@ -1,4 +1,4 @@
-package ConvertXml;
+package ru.solovev.ConvertXml;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;

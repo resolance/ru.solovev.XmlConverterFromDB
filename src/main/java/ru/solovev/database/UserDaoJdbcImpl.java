@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UserDaoJdbcImpl implements UserDaoJdbc {
-    public static final Logger LOG = Logger.getLogger(UserDaoJdbcImpl.class.getName());
+    private static final Logger LOG = Logger.getLogger(UserDaoJdbcImpl.class.getName());
     public static final String CHECK_COUNT_TABLE_ROW = "SELECT count(*) FROM magnit.test;";
     public static final String INSERT_ROW = "INSERT INTO magnit.test (field) values (?);";
     public static final String DELETE_ROW = "DELETE FROM magnit.test;";
@@ -35,10 +35,14 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
             if (rs.next()) {
                 numberOfRow = Integer.parseInt(rs.getString(1));
             }
-            //LOG.log(Level.INFO, "Get {0} rows", new Object[]{numberOfRow});
+            if (LOG.isLoggable(Level.CONFIG)) {
+                LOG.log(Level.CONFIG, "Get {0} rows", new Object[]{numberOfRow});
+            }
             return numberOfRow;
         } catch (SQLException e) {
+            //TODO: как правильно кидать исключение? учитывать сам эксепшн или нет?
             this.connection.rollback();
+            LOG.log(Level.SEVERE, "Can't execute sql = " + CHECK_COUNT_TABLE_ROW);
             throw new DbException("Can't execute sql = " + CHECK_COUNT_TABLE_ROW);
         } finally {
             rs.close();
@@ -64,9 +68,9 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
             this.connection.commit();
 
             LOG.log(Level.INFO,"Add: {0} rows ", new Object[]{ result.length});
-            //System.out.println("The number of rows inserted: " + result.length);
 
         } catch (SQLException e) {
+            //TODO: add logging
             this.connection.rollback();
             throw new DbException("Can't execute sql = " + INSERT_ROW);
 
@@ -96,16 +100,16 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
                 this.connection.commit();
                 countAfter = checkCountTableRow();
                 if (0 == countAfter) {
-                    LOG.log(Level.INFO,"Table is clear. Delete {0} rows", new Object[]{countBefore});
+                    LOG.log(Level.INFO,"Table are cleared. Delete {0} rows", new Object[]{countBefore});
                 } else {
-                    //TODO: нужна запись в лог?
+                    //TODO: add logging
                     throw new DbException("Can't delete rows.");
                 }
 
             }
         } catch (SQLException e) {
             this.connection.rollback();
-            System.err.println(e.getSQLState());
+            //TODO: add logging
             throw new DbException("Can't execute sql = " + DELETE_ROW);
 
         } finally {
@@ -118,12 +122,13 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
 
     @Override
     /*Скорее всего использовать Объекты энтри не правильно, т.к. здесь дожно быть только работа с БД
-    * возможно, правильней будет отсюда доставать коллекцию элементов, и в отдельном классе ее обрабатывать*/
+    * возможно, правильней будет отсюда доставать коллекцию элементов, и в отдельном классе ее обрабатывать
+    * Так же везде сделать try с ресурсами
+    * */
     //TODO: Переделать как было до, достаем коллецию, и обрабатываем ее в отдельном классе
 
     public Entries readTable(int numberOfInsertedRow) throws DbException, SQLException {
         Entries entries = new Entries();
-        EntryObj entryObj = new EntryObj();
         this.connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
         this.connection.setAutoCommit(false);
 
@@ -138,6 +143,7 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
             }
 
         }catch (SQLException e){
+            //TODO: add logging
             this.connection.rollback();
             System.err.println(e.getSQLState());
             throw new DbException("Can't execute sql = " + READ_TABLE);

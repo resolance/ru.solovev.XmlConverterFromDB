@@ -1,4 +1,7 @@
-package ru.solovev.database;
+package ru.solovev.service;
+
+import ru.solovev.database.ConnectionHolder;
+import ru.solovev.database.UserDaoJdbcImpl;
 
 import java.sql.Connection;
 

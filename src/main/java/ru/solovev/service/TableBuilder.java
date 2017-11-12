@@ -12,10 +12,6 @@ import java.util.logging.Logger;
 
 public class TableBuilder{
 
-    public static final Logger LOG = Logger.getLogger(TableBuilder.class.getName());
-    private long startDuration;
-    private long endDuration;
-    private long duration;
     private int numberOfInputRow;
     private UserDaoJdbc userDaoJdbc;
 
@@ -26,15 +22,7 @@ public class TableBuilder{
 
     public void fillTable() throws Exception {
         int countTableRow = userDaoJdbc.checkCountTableRow();
-        startDuration = System.nanoTime();
         if (countTableRow != 0) { userDaoJdbc.deleteRow(); }
-        endDuration = System.nanoTime();
-        duration = TimeUnit.MILLISECONDS.convert((endDuration-startDuration),TimeUnit.NANOSECONDS);
-        LOG.log(Level.INFO,"Duration time to delete the table: {0} ms.",new Object[]{duration});
-
-        startDuration = System.nanoTime();
         userDaoJdbc.insertRow(numberOfInputRow);
-        endDuration = System.nanoTime();
-        LOG.log(Level.INFO,"Duration time to insert rows: {0} ms.",new Object[]{duration});
     }
 }

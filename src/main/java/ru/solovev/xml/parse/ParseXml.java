@@ -8,9 +8,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ParseXml {
-
+    private static final Logger LOG = Logger.getLogger(ParseXml.class.getName());
     private final String filePath;
     private File file;
     private int summFieldValue;
@@ -25,7 +27,7 @@ public class ParseXml {
         if (file.canRead()) {
             return this.file;
         } else {
-            System.out.println("Can't read file ");
+            LOG.log(Level.INFO, "Can't read file. Check {0}", new Object[]{filePath});
         }
         return null;
     }
@@ -35,30 +37,32 @@ public class ParseXml {
 
         FileInputStream fileInputStream = null;
         XMLStreamReader reader;
-        try {
-            fileInputStream = new FileInputStream(getXmlFile());
-            XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-            reader = inputFactory.createXMLStreamReader(fileInputStream);
+        if (null != getXmlFile()) {
+            try {
+                fileInputStream = new FileInputStream(getXmlFile());
+                XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+                reader = inputFactory.createXMLStreamReader(fileInputStream);
 
-            reader.next();
+                reader.next();
 
-            while (reader.hasNext()) {
-                int type = reader.next();
-                if (type == XMLStreamConstants.START_ELEMENT) {
-                    summFieldValue = summFieldValue
-                            + Integer.parseInt(reader.getAttributeValue(0));
+                while (reader.hasNext()) {
+                    int type = reader.next();
+                    if (type == XMLStreamConstants.START_ELEMENT) {
+                        summFieldValue = summFieldValue
+                                + Integer.parseInt(reader.getAttributeValue(0));
+                    }
                 }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        } finally {
-            if (fileInputStream != null) {
-                try {
-                    fileInputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (XMLStreamException e) {
+                e.printStackTrace();
+            } finally {
+                if (fileInputStream != null) {
+                    try {
+                        fileInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

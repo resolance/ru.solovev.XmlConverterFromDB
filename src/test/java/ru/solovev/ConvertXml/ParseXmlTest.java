@@ -1,4 +1,4 @@
-package ConvertXml;
+package ru.solovev.ConvertXml;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;

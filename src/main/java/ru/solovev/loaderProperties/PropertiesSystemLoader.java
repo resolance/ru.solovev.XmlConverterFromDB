@@ -35,21 +35,23 @@ public class PropertiesSystemLoader {
         this.pathToSecondXML = properties.getProperty("system.secondXmlName");
         this.pathToXsltTransformer = properties.getProperty("system.xsltTranformer");
         this.numberRows = properties.getProperty("system.valueNum");
-        LOG.log(Level.CONFIG,
-                "Load system properties:" +
-                        "\nfirstXmlName: {0}" +
-                        "\nsecondXmlName: {1}" +
-                        "\nxsltTranformer: {2}" +
-                        "\nvalueNum: {3}",
-                new Object[]{
-                        pathToFirstXML,
-                        pathToSecondXML,
-                        pathToXsltTransformer,
-                        numberRows
-                }
-        );
-    }
 
+        if (LOG.isLoggable(Level.CONFIG)) {
+            LOG.log(Level.CONFIG,
+                    "Load system properties:" +
+                            "\nfirstXmlName: {0}" +
+                            "\nsecondXmlName: {1}" +
+                            "\nxsltTranformer: {2}" +
+                            "\nvalueNum: {3}",
+                    new Object[]{
+                            pathToFirstXML,
+                            pathToSecondXML,
+                            pathToXsltTransformer,
+                            numberRows
+                    }
+            );
+        }
+    }
     public String getFirstXmlName() {
         return pathToFirstXML;
     }

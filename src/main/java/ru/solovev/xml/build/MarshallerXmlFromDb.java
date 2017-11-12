@@ -7,12 +7,16 @@ import ru.solovev.database.UserDaoJdbcImpl;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class MarshallerXmlFromDb {
 
+    public static final Logger LOG = Logger.getLogger(MarshallerXmlFromDb.class.getName());
     private Connection connection;
     private int numberOfInsertedRow;
     private String pathToFirstXML;
@@ -37,13 +41,14 @@ public class MarshallerXmlFromDb {
 
         Entries entries = userDaoJdbc.readTable(numberOfInsertedRow);
 
-        //TODO: Сделать логирование, пока просто в консоль и добавить время
-        System.out.println("\nCreate XML");
+        LOG.log(Level.INFO, "Creating XML file.");
         marshaller.marshal(entries, new FileOutputStream(pathToFirstXML));
-        //marshaller.marshal(entries, System.out);
 
-        //TODO: Сделать проверку наличия файла
-        System.out.println("\nDone. first XML saved in: " + pathToFirstXML +"\n");
+        if (new File(pathToFirstXML).isFile()) {
+            LOG.log(Level.INFO, "Done. First XML saved in: " + pathToFirstXML);
+        } else {
+            LOG.log(Level.INFO, "Can't read file. " + pathToFirstXML);
+        }
         connection.close();
     }
 }

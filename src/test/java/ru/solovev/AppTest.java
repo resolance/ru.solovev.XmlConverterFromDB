@@ -1,5 +1,7 @@
-package ru.solovev.database;
+package ru.solovev;
 
+import ru.solovev.database.ConnectionHolder;
+import ru.solovev.database.UserDaoJdbcImpl;
 import ru.solovev.service.TableBuilder;
 import ru.solovev.xml.build.MarshallerXmlFromDb;
 import ru.solovev.xml.converter.XmlConverterXslt;

@@ -5,8 +5,11 @@ import ru.solovev.loaderProperties.PropertiesDBLoader;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ConnectionHolder {
+    private static final Logger LOG = Logger.getLogger(ConnectionHolder.class.getName());
     private static ConnectionHolder connectionHolder;
 
     public static synchronized ConnectionHolder getInstance(){
@@ -26,6 +29,7 @@ public class ConnectionHolder {
             );
 
         } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Can't create connection",e);
             throw new DbException("Can't create connection", e);
         }
     }
