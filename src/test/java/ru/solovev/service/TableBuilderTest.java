@@ -6,6 +6,7 @@ import ru.solovev.database.UserDaoJdbcImpl;
 import ru.solovev.loaderProperties.PropertiesSystemLoader;
 
 import java.util.concurrent.TimeUnit;
+
 import static org.junit.Assert.assertTrue;
 
 public class TableBuilderTest {

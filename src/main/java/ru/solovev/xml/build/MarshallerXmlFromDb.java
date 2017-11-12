@@ -25,7 +25,7 @@ public class MarshallerXmlFromDb {
     }
 
 
-    public MarshallerXmlFromDb(int numberOfInputRow, String pathToFirstXML) throws Exception {
+    public MarshallerXmlFromDb(final int numberOfInputRow, final String pathToFirstXML) throws Exception {
         this.numberOfInsertedRow = numberOfInputRow;
         this.pathToFirstXML = pathToFirstXML;
     }

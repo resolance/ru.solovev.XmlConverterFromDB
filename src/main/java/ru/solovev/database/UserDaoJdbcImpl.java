@@ -38,24 +38,29 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
             if (LOG.isLoggable(Level.CONFIG)) {
                 LOG.log(Level.CONFIG, "Get {0} rows", new Object[]{numberOfRow});
             }
+
             return numberOfRow;
+
         } catch (SQLException e) {
-            //TODO: как правильно кидать исключение? учитывать сам эксепшн или нет?
             this.connection.rollback();
-            LOG.log(Level.SEVERE, "Can't execute sql = " + CHECK_COUNT_TABLE_ROW);
-            throw new DbException("Can't execute sql = " + CHECK_COUNT_TABLE_ROW);
+            LOG.log(Level.SEVERE, "Can't execute sql",
+                    new DbException(CHECK_COUNT_TABLE_ROW));
+            throw new DbException(CHECK_COUNT_TABLE_ROW);
+
         } finally {
-            rs.close();
-            st.close();
+            if (rs != null) {
+                rs.close();
+            }
+            if (st != null) {
+                st.close();
+            }
         }
     }
 
     @Override
-    public void addRow(int numberOfInsertedRow) throws DbException, SQLException {
+    public void addRow(final int numberOfInsertedRow) throws DbException, SQLException {
         this.connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
         this.connection.setAutoCommit(false);
-
-        //TODO: продумать как сделать добавление множества строк
         Statement st = null;
 
         try {
@@ -70,13 +75,15 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
             LOG.log(Level.INFO, "Add: {0} rows ", new Object[]{result.length});
 
         } catch (SQLException e) {
-            //TODO: add logging
             this.connection.rollback();
-            throw new DbException("Can't execute sql = " + INSERT_ROW);
+            LOG.log(Level.SEVERE, "Can't execute sql",
+                    new DbException(INSERT_ROW));
+            throw new DbException(INSERT_ROW);
 
         } finally {
-            st.close();
-
+            if (null != st) {
+                st.close();
+            }
         }
 
     }
@@ -101,17 +108,14 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
                 countAfter = getCountRows();
                 if (0 == countAfter) {
                     LOG.log(Level.INFO, "Table are cleared. Delete {0} rows", new Object[]{countBefore});
-                } else {
-                    //TODO: add logging
-                    throw new DbException("Can't delete rows.");
                 }
 
             }
         } catch (SQLException e) {
             this.connection.rollback();
-            //TODO: add logging
-            throw new DbException("Can't execute sql = " + DELETE_ROW);
-
+            LOG.log(Level.SEVERE, "Can't execute sql",
+                    new DbException(DELETE_ROW));
+            throw new DbException(DELETE_ROW);
         } finally {
             if (null != ps) {
                 ps.close();
@@ -120,15 +124,7 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
 
     }
 
-    @Override
-    /*Скорее всего использовать Объекты энтри не правильно, т.к. здесь дожно быть только работа с БД
-    * возможно, правильней будет отсюда доставать коллекцию элементов, и в отдельном классе ее обрабатывать
-    * Так же везде сделать try с ресурсами
-    * */
-    //TODO: Переделать как было до, достаем коллецию, и обрабатываем ее в отдельном классе
-
-
-    public Entries readTable(int numberOfInsertedRow) throws DbException, SQLException {
+    public Entries readTable(final int numberOfInsertedRow) throws DbException, SQLException {
         Entries entries = new Entries();
         this.connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
         this.connection.setAutoCommit(false);
@@ -144,17 +140,16 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
             }
 
         } catch (SQLException e) {
-            //TODO: add logging
             this.connection.rollback();
-            System.err.println(e.getSQLState());
-            throw new DbException("Can't execute sql = " + READ_TABLE);
-
+            LOG.log(Level.SEVERE, "Can't execute sql",
+                    new DbException(READ_TABLE));
+            throw new DbException(READ_TABLE);
         } finally {
-            if (st != null) {
-                st.close();
-            }
             if (rs != null) {
                 rs.close();
+            }
+            if (st != null) {
+                st.close();
             }
         }
         return entries;

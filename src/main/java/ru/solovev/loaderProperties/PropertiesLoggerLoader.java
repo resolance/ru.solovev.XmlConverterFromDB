@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 public class PropertiesLoggerLoader {
     private static final Logger LOG = Logger.getLogger(PropertiesLoggerLoader.class.getName());
 
-    private String pathToLoggerProperties = "/log.properties";
+    private static final String pathToLoggerProperties = "/log.properties";
 
     public static PropertiesLoggerLoader propertiesLoggerLoader;
 

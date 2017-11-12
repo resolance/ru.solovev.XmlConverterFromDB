@@ -4,7 +4,6 @@
 
     <xsl:template match="/">
         <!-- add new line,
-        //TODO: Заменить костыль вставки новой строки, после ифны XML
         <xsl:text>&#13;&#10;</xsl:text>-->
         <xsl:text>&#13;</xsl:text>
         <entries>

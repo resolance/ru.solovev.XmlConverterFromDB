@@ -15,75 +15,94 @@ import java.util.logging.Logger;
 public class AppStarter {
     private static final Logger LOG = Logger.getLogger(AppStarter.class.getName());
 
+    public final static String defaultPath = System.getProperty("user.home");
+    private int numberOfInputRow;
+    private String pathToFirstXML;
+    private String pathToSecondXML;
+    private String pathToXslt;
+
+    public AppStarter() {
+        try {
+            PropertiesSystemLoader propertiesSystemLoader = PropertiesSystemLoader.getInstance();
+            PropertiesLoggerLoader.getInstance();
+
+            this.pathToFirstXML = defaultPath + "/" + propertiesSystemLoader.getFirstXmlName();
+            this.pathToSecondXML = defaultPath + "/" + propertiesSystemLoader.getSecondXmlName();
+            this.pathToXslt = propertiesSystemLoader.getPathToXsltTransformer();
+            this.numberOfInputRow = Integer.parseInt(propertiesSystemLoader.getNumberRows());
+        } catch (Exception ex) {
+            LOG.log(Level.INFO, "Can't read properties files ", ex);
+        }
+    }
+
     public void appStart() {
 
+        LOG.log(Level.INFO, "Staring App");
 
-        int numberOfInputRow = 0;
-        String pathToFirstXML = "";
-        String pathToSecondXML = "";
-        String pathToXslt = "";
+        prepareTable();
+        transformDataToXML(getNumberOfInputRow(), getPathToFirstXML());
+        checkAndMath(getPathToTransformedXml(
+                getPathToFirstXML(), getPathToSecondXML(), getPathToXslt()));
 
+        LOG.log(Level.INFO, "Finish App");
+    }
+
+    private void checkAndMath(final String pathToXML) {
+        if (null == pathToXML) {
+            LOG.log(Level.INFO, "Can't create or read file" + pathToXML);
+        } else {
+            ParseXml parseXml = new ParseXml(pathToXML);
+            LOG.log(Level.INFO, "Done. Result of summing field attributes = {0}",
+                    new Object[]{parseXml.getResultParseXml()});
+        }
+
+    }
+
+    private void prepareTable() {
         try {
-            /*
-            * Loading properties
-            **/
-            PropertiesSystemLoader propertiesSystemLoader = PropertiesSystemLoader.getInstance();
-            PropertiesLoggerLoader propertiesLoggerLoader = PropertiesLoggerLoader.getInstance();
-
-            /*
-             * Set base path to saving files.
-             *
-             */
-            String defaultPath = System.getProperty("user.home");
-
-            pathToFirstXML = defaultPath + "/" + propertiesSystemLoader.getFirstXmlName();
-            pathToSecondXML = defaultPath + "/" + propertiesSystemLoader.getSecondXmlName();
-            pathToXslt = propertiesSystemLoader.getPathToXsltTransformer();
-            numberOfInputRow = Integer.parseInt(propertiesSystemLoader.getNumberRows());
-
-            /*
-             * Insert data in mySql or other DataBase
-             *
-             */
-            LOG.log(Level.INFO, "Staring App");
             TableBuilder tableBuilder = new TableBuilder(
-                    numberOfInputRow,
-                    new UserDaoJdbcImpl(
-                            ConnectionHolder.getInstance().getConnection()
-                    )
+                    getNumberOfInputRow(), new UserDaoJdbcImpl(
+                    ConnectionHolder.getInstance().getConnection())
             );
             tableBuilder.fillTable();
 
-            /*
-            * Marshaller data to XML file.
-            * */
-            MarshallerXmlFromDb marshallerXmlFromDb =
-                    new MarshallerXmlFromDb(numberOfInputRow, pathToFirstXML);
-            marshallerXmlFromDb.getXmlFromDb();
-
-            /*
-             * Transform XML file whith XML StyleSheets language
-             *
-             */
-            XmlConverterXslt xmlConverterXslt = new XmlConverterXslt(pathToFirstXML, pathToSecondXML, pathToXslt);
-            pathToSecondXML = xmlConverterXslt.doNewXml();
-
-
-            /*
-            * Check that created file done and parse new XML for math.
-            * */
-            if (null == pathToSecondXML) {
-                LOG.log(Level.INFO, "Can't create or read file" + pathToSecondXML);
-            } else {
-                ParseXml parseXml = new ParseXml(pathToSecondXML);
-                //TODO: выводит двойное значение. починить
-                LOG.log(Level.INFO, "Done. Result of summing field attributes = {0}",
-                        new Object[]{parseXml.getResultParseXml()});
-            }
-            LOG.log(Level.INFO, "Finish App");
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            LOG.log(Level.INFO, "Can't drop or add data into DB ", ex);
         }
+    }
+
+    private void transformDataToXML(final int numberRow, final String pathToXML) {
+        try {
+            MarshallerXmlFromDb marshallerXmlFromDb =
+                    new MarshallerXmlFromDb(numberRow, pathToXML);
+            marshallerXmlFromDb.getXmlFromDb();
+        } catch (Exception e) {
+            LOG.log(Level.INFO, "Can't transformed data to XML ", e);
+        }
+    }
+
+    private String getPathToTransformedXml(final String pathToFirstXML,
+                                           final String pathToSecondXML,
+                                           final String pathToXslt) {
+        XmlConverterXslt xmlConverterXslt =
+                new XmlConverterXslt(pathToFirstXML, pathToSecondXML, pathToXslt);
+
+        return xmlConverterXslt.doNewXml();
+    }
+
+    public String getPathToFirstXML() {
+        return this.pathToFirstXML;
+    }
+
+    public int getNumberOfInputRow() {
+        return this.numberOfInputRow;
+    }
+
+    public String getPathToSecondXML() {
+        return this.pathToSecondXML;
+    }
+
+    public String getPathToXslt() {
+        return this.pathToXslt;
     }
 }

@@ -17,13 +17,12 @@ public class ParseXml {
     private File file;
     private int summFieldValue;
 
-    public ParseXml(String filePath) {
+    public ParseXml(final String filePath) {
         this.filePath = filePath;
     }
 
     private File getXmlFile() {
         this.file = new File(filePath);
-        //TODO: сделать обрабочик ошибки открытия или наличия файла
         if (file.canRead()) {
             return this.file;
         } else {

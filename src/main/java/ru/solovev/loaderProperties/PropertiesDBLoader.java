@@ -12,7 +12,7 @@ public class PropertiesDBLoader {
 
     private static PropertiesDBLoader propertiesDBLoader;
 
-    private final String pathToJdbcProperties = "jdbc.properties";
+    private static final String pathToJdbcProperties = "jdbc.properties";
     private final String driverClassName;
     private final String login;
     private final String password;

@@ -11,7 +11,7 @@ public class PropertiesSystemLoader {
     private static final Logger LOG = Logger.getLogger(PropertiesDBLoader.class.getName());
     private static PropertiesSystemLoader propertiesSystemLoader;
 
-    private final String pathToSystemProperties = "system.properties";
+    private final static String pathToSystemProperties = "system.properties";
     private final String pathToFirstXML;
     private final String pathToSecondXML;
     private final String pathToXsltTransformer;

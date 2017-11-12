@@ -1,5 +1,6 @@
 package ru.solovev.xml.build;
 
+import org.junit.Test;
 import ru.solovev.database.ConnectionHolder;
 import ru.solovev.database.UserDaoJdbc;
 import ru.solovev.database.UserDaoJdbcImpl;
@@ -10,19 +11,13 @@ import java.io.FileOutputStream;
 import java.sql.Connection;
 
 public class MarshallerXmlFromDbTest {
-    public static void main(String[] args) throws Exception {
+    @Test
+    public void getXmlFromDb() throws Exception {
 
-        final int numberOfInsertedRow = 100;
+        final int numberOfInsertedRow = 10;
 
         Connection connection = ConnectionHolder.getInstance().getConnection();
         UserDaoJdbc userDaoJdbc = new UserDaoJdbcImpl(connection);
-
-        /*Проверим что достали из БД*/
-        //System.out.println(userDaoJdbc.readTable(numberOfInsertedRow));
-
-        /*Создадим лист элементов */
-        /*ArrayList list = new ArrayList<String>(numberOfInsertedRow);
-        list.addAll(userDaoJdbc.readTable(numberOfInsertedRow));*/
 
         JAXBContext context = JAXBContext.newInstance(Entries.class);
         Marshaller marshaller = context.createMarshaller();
@@ -34,7 +29,6 @@ public class MarshallerXmlFromDbTest {
 
         marshaller.marshal(entries, new FileOutputStream("./1.xml"));
         marshaller.marshal(entries, System.out);
-
 
         connection.close();
     }

@@ -14,7 +14,7 @@ public class XmlConverterXslt {
     private final String outputSource;
     private final String xsltPath;
 
-    public XmlConverterXslt(String inputSource, String outputSource, String xsltPath) {
+    public XmlConverterXslt(final String inputSource, final String outputSource, final String xsltPath) {
         this.inputSource = inputSource;
         this.outputSource = outputSource;
         this.xsltPath = xsltPath;
@@ -22,7 +22,6 @@ public class XmlConverterXslt {
 
     public String doNewXml() {
         try {
-            //TODO: Сделать проверку на сущ-ие каталога, поиск по каталогу файла стиля XSLT
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer transformer = tf.newTransformer(new StreamSource(xsltPath));
             transformer.transform(new StreamSource(inputSource), new StreamResult(outputSource));

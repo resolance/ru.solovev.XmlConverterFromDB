@@ -7,7 +7,8 @@ import ru.solovev.xml.parse.ParseXml;
 import static org.junit.Assert.assertEquals;
 
 public class AppStarterTest {
-    @Test
+
+     @Test
     public void appStart() throws Exception {
         PropertiesSystemLoader propertiesDBLoader = PropertiesSystemLoader.getInstance();
         ParseXml parseXml = new ParseXml(propertiesDBLoader.getSecondXmlName());
