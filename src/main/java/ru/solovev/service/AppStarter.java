@@ -21,7 +21,20 @@ public class AppStarter {
     private String pathToSecondXML;
     private String pathToXslt;
 
-    public AppStarter() {
+    public void appStart() {
+
+        setSystemPath();
+        LOG.log(Level.INFO, "Staring App");
+
+        prepareTable();
+        transformDataToXML(getNumberOfInputRow(), getPathToFirstXML());
+        checkAndMath(getPathToTransformedXml(
+                getPathToFirstXML(), getPathToSecondXML(), getPathToXslt()));
+
+        LOG.log(Level.INFO, "Finish App");
+    }
+
+    public void setSystemPath() {
         try {
             PropertiesSystemLoader propertiesSystemLoader = PropertiesSystemLoader.getInstance();
             PropertiesLoggerLoader.getInstance();
@@ -35,17 +48,6 @@ public class AppStarter {
         }
     }
 
-    public void appStart() {
-
-        LOG.log(Level.INFO, "Staring App");
-
-        prepareTable();
-        transformDataToXML(getNumberOfInputRow(), getPathToFirstXML());
-        checkAndMath(getPathToTransformedXml(
-                getPathToFirstXML(), getPathToSecondXML(), getPathToXslt()));
-
-        LOG.log(Level.INFO, "Finish App");
-    }
 
     private void checkAndMath(final String pathToXML) {
         if (null == pathToXML) {
