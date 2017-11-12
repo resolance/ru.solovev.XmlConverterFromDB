@@ -1,0 +1,16 @@
+ноя 12, 2017 9:29:54 PM ru.solovev.service.AppStarter appStart
+INFO: Staring App
+ноя 12, 2017 9:29:55 PM ru.solovev.database.UserDaoJdbcImpl deleteRow
+INFO: Table are cleared. Delete 100 rows
+ноя 12, 2017 9:29:55 PM ru.solovev.database.UserDaoJdbcImpl addRow
+INFO: Add: 10 rows 
+ноя 12, 2017 9:29:55 PM ru.solovev.xml.build.MarshallerXmlFromDb getXmlFromDb
+INFO: Creating XML file.
+ноя 12, 2017 9:29:55 PM ru.solovev.xml.build.MarshallerXmlFromDb getXmlFromDb
+INFO: Done. First XML saved in: C:\Users\res/1.xml
+ноя 12, 2017 9:29:55 PM ru.solovev.xml.converter.XmlConverterXslt doNewXml
+INFO: Transform complete. See new XML in: C:\Users\res/2.xml 
+ноя 12, 2017 9:29:55 PM ru.solovev.service.AppStarter checkAndMath
+INFO: Done. Result of summing field attributes = 55
+ноя 12, 2017 9:29:55 PM ru.solovev.service.AppStarter appStart
+INFO: Finish App

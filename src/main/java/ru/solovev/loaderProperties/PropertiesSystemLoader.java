@@ -12,7 +12,7 @@ public class PropertiesSystemLoader {
     private static PropertiesSystemLoader propertiesSystemLoader;
 
     private final static String pathToSystemProperties = "system.properties";
-    private final String pathToFirstXML;
+    private static String pathToFirstXML;
     private final String pathToSecondXML;
     private final String pathToXsltTransformer;
     private final String numberRows;
