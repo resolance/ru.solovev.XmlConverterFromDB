@@ -17,8 +17,8 @@ public class TableBuilder{
     }
 
     public void fillTable() throws Exception {
-        int countTableRow = userDaoJdbc.checkCountTableRow();
+        int countTableRow = userDaoJdbc.getCountRows();
         if (countTableRow != 0) { userDaoJdbc.deleteRow(); }
-        userDaoJdbc.insertRow(numberOfInputRow);
+        userDaoJdbc.addRow(numberOfInputRow);
     }
 }

@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 
 public interface UserDaoJdbc {
-    int checkCountTableRow() throws DbException, SQLException;
-    void insertRow(int Var) throws DbException, SQLException;
+    int getCountRows() throws DbException, SQLException;
+    void addRow(int Var) throws DbException, SQLException;
     void deleteRow() throws DbException, SQLException;
     Entries readTable(int var) throws DbException, SQLException;
 }

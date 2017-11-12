@@ -13,7 +13,7 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
     public static final String CHECK_COUNT_TABLE_ROW = "SELECT count(*) FROM magnit.test;";
     public static final String INSERT_ROW = "INSERT INTO magnit.test (field) values (?);";
     public static final String DELETE_ROW = "DELETE FROM magnit.test;";
-    public static final String READ_TABLE = "SELECT * FROM magnit.test";
+    public static final String READ_TABLE = "SELECT FIELD FROM magnit.test";
 
     private Connection connection;
 
@@ -22,7 +22,7 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
     }
 
     @Override
-    public int checkCountTableRow() throws DbException, SQLException {
+    public int getCountRows() throws DbException, SQLException {
         this.connection.setAutoCommit(false);
         this.connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
         int numberOfRow = 0;
@@ -51,7 +51,7 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
     }
 
     @Override
-    public void insertRow(int numberOfInsertedRow) throws DbException, SQLException {
+    public void addRow(int numberOfInsertedRow) throws DbException, SQLException {
         this.connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
         this.connection.setAutoCommit(false);
 
@@ -89,7 +89,7 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
         PreparedStatement ps = null;
         try {
 
-            int countBefore = checkCountTableRow();
+            int countBefore = getCountRows();
             int countAfter = 0;
 
             if (0 == countBefore) {
@@ -98,7 +98,7 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
                 ps = connection.prepareStatement(DELETE_ROW);
                 ps.execute();
                 this.connection.commit();
-                countAfter = checkCountTableRow();
+                countAfter = getCountRows();
                 if (0 == countAfter) {
                     LOG.log(Level.INFO,"Table are cleared. Delete {0} rows", new Object[]{countBefore});
                 } else {
@@ -124,8 +124,10 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
     /*Скорее всего использовать Объекты энтри не правильно, т.к. здесь дожно быть только работа с БД
     * возможно, правильней будет отсюда доставать коллекцию элементов, и в отдельном классе ее обрабатывать
     * Так же везде сделать try с ресурсами
+    *
     * */
     //TODO: Переделать как было до, достаем коллецию, и обрабатываем ее в отдельном классе
+
 
     public Entries readTable(int numberOfInsertedRow) throws DbException, SQLException {
         Entries entries = new Entries();
