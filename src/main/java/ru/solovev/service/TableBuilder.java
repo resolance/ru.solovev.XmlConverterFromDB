@@ -2,8 +2,10 @@ package ru.solovev.service;
 
 import ru.solovev.database.UserDaoJdbc;
 
-/***
- * Проверяем есть ли в таблице записи, если есть удаляем их.
+/**
+ * Class checks that the table is empty and raises its data
+ *
+ * @author res
  */
 
 public class TableBuilder {

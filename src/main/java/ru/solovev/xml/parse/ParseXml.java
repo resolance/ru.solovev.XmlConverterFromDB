@@ -11,6 +11,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Xml creator
+ *
+ * @author res
+ */
 public class ParseXml {
     private static final Logger LOG = Logger.getLogger(ParseXml.class.getName());
 
@@ -50,6 +55,7 @@ public class ParseXml {
                     if (type == XMLStreamConstants.START_ELEMENT) {
                         summFieldValue = summFieldValue
                                 + Integer.parseInt(reader.getAttributeValue(0));
+
                     }
                 }
                 return summFieldValue;
@@ -68,6 +74,6 @@ public class ParseXml {
                 }
             }
         }
-      return -1;
+        return -1;
     }
 }

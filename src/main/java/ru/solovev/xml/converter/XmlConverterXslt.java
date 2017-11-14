@@ -8,6 +8,12 @@ import javax.xml.transform.stream.StreamSource;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+/**
+ * Convert a XML file to a new one through XSLT
+ *
+ * @author res
+ */
 public class XmlConverterXslt {
     private static final Logger LOG = Logger.getLogger(XmlConverterXslt.class.getName());
     private final String inputSource;

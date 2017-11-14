@@ -11,7 +11,7 @@ public class AppStarterTest {
      @Test
     public void appStart() throws Exception {
         PropertiesSystemLoader propertiesDBLoader = PropertiesSystemLoader.getInstance();
-        String secondXmlName = propertiesDBLoader.getSecondXmlName();
+        String secondXmlName = "./" + propertiesDBLoader.getSecondXmlName();
 
         ParseXml parseXml = new ParseXml(secondXmlName);
         int resultParse = parseXml.getResultParseXml();

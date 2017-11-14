@@ -3,6 +3,11 @@ package ru.solovev.xml.build;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ *
+ * @author res
+ */
+
 @XmlRootElement
 public class EntryObj {
 

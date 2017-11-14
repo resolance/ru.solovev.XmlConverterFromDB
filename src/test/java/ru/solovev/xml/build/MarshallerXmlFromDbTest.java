@@ -24,7 +24,7 @@ public class MarshallerXmlFromDbTest {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 
-        Entries entries = userDaoJdbc.readTable(numberOfInsertedRow);
+        Entries entries = userDaoJdbc.readData(numberOfInsertedRow);
         System.out.println(entries);
 
         marshaller.marshal(entries, new FileOutputStream("./1.xml"));

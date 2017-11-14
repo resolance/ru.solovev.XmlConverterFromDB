@@ -13,7 +13,12 @@ import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ * Xml creator
+ *
+ * @author res
+ * @throws Exception
+ */
 public class MarshallerXmlFromDb {
 
     public static final Logger LOG = Logger.getLogger(MarshallerXmlFromDb.class.getName());
@@ -39,7 +44,7 @@ public class MarshallerXmlFromDb {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 
-        Entries entries = userDaoJdbc.readTable(numberOfInsertedRow);
+        Entries entries = userDaoJdbc.readData(numberOfInsertedRow);
 
         LOG.log(Level.INFO, "Creating XML file.");
         marshaller.marshal(entries, new FileOutputStream(pathToFirstXML));

@@ -8,6 +8,11 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *  DataBase worker
+ *
+ * @author res
+ */
 public class UserDaoJdbcImpl implements UserDaoJdbc {
     private static final Logger LOG = Logger.getLogger(UserDaoJdbcImpl.class.getName());
     public static final String CHECK_COUNT_TABLE_ROW = "SELECT count(*) FROM magnit.test;";
@@ -23,7 +28,6 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
 
     @Override
     public int getCountRows() throws DbException, SQLException {
-        this.connection.setAutoCommit(false);
         this.connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
         int numberOfRow = 0;
         Statement st = null;
@@ -43,8 +47,7 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
 
         } catch (SQLException e) {
             this.connection.rollback();
-            LOG.log(Level.SEVERE, "Can't execute sql",
-                    new DbException(CHECK_COUNT_TABLE_ROW));
+            LOG.log(Level.SEVERE, "Can't execute sql" + CHECK_COUNT_TABLE_ROW);
             throw new DbException(CHECK_COUNT_TABLE_ROW);
 
         } finally {
@@ -76,8 +79,7 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
 
         } catch (SQLException e) {
             this.connection.rollback();
-            LOG.log(Level.SEVERE, "Can't execute sql",
-                    new DbException(INSERT_ROW));
+            LOG.log(Level.SEVERE, "Can't execute sql" + INSERT_ROW);
             throw new DbException(INSERT_ROW);
 
         } finally {
@@ -113,8 +115,7 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
             }
         } catch (SQLException e) {
             this.connection.rollback();
-            LOG.log(Level.SEVERE, "Can't execute sql",
-                    new DbException(DELETE_ROW));
+            LOG.log(Level.SEVERE, "Can't execute sql" + DELETE_ROW);
             throw new DbException(DELETE_ROW);
         } finally {
             if (null != ps) {
@@ -124,10 +125,9 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
 
     }
 
-    public Entries readTable(final int numberOfInsertedRow) throws DbException, SQLException {
+    public Entries readData(final int numberOfInsertedRow) throws DbException, SQLException {
         Entries entries = new Entries();
         this.connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-        this.connection.setAutoCommit(false);
 
         Statement st = null;
         ResultSet rs = null;
@@ -141,8 +141,7 @@ public class UserDaoJdbcImpl implements UserDaoJdbc {
 
         } catch (SQLException e) {
             this.connection.rollback();
-            LOG.log(Level.SEVERE, "Can't execute sql",
-                    new DbException(READ_TABLE));
+            LOG.log(Level.SEVERE, "Can't execute sql" + READ_TABLE);
             throw new DbException(READ_TABLE);
         } finally {
             if (rs != null) {

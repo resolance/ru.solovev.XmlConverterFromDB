@@ -6,13 +6,17 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ *  Get system properties
+ *
+ * @author res
+ */
 public class PropertiesSystemLoader {
     private static final Logger LOG = Logger.getLogger(PropertiesDBLoader.class.getName());
     private static PropertiesSystemLoader propertiesSystemLoader;
 
-    private final static String pathToSystemProperties = "system.properties";
-    private static String pathToFirstXML;
+    private final static String PATH_TO_SYSTEM_PROPERTIES = "system.properties";
+    private final String pathToFirstXML;
     private final String pathToSecondXML;
     private final String pathToXsltTransformer;
     private final String numberRows;
@@ -27,7 +31,7 @@ public class PropertiesSystemLoader {
 
     private PropertiesSystemLoader() throws IOException {
         Properties properties = new Properties();
-        FileInputStream inputStream = new FileInputStream(pathToSystemProperties);
+        FileInputStream inputStream = new FileInputStream(PATH_TO_SYSTEM_PROPERTIES);
         properties.load(inputStream);
         inputStream.close();
 

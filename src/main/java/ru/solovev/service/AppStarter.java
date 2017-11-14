@@ -12,46 +12,58 @@ import ru.solovev.xml.parse.ParseXml;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Main class executor. Load properties, set all parameters
+ *
+ * @author res
+ */
+
+
 public class AppStarter {
     private static final Logger LOG = Logger.getLogger(AppStarter.class.getName());
 
-    public final static String defaultPath = System.getProperty("user.home");
+    public final static String DEFAULT_PATH = System.getProperty("user.home");
     private int numberOfInputRow;
     private String pathToFirstXML;
     private String pathToSecondXML;
     private String pathToXslt;
 
     public void appStart() {
-        setSystemPath();
-        LOG.log(Level.INFO, "Staring App");
+        try {
+            setSystemPath();
+            LOG.log(Level.INFO, "Staring App");
 
-        prepareTable();
-        transformDataToXML(getNumberOfInputRow(), getPathToFirstXML());
+            prepareTable();
+            transformDataToXML(numberOfInputRow, pathToFirstXML);
 
-        checkAndMath(getPathToTransformedXml(
-                getPathToFirstXML(), getPathToSecondXML(), getPathToXslt()));
+            checkAndMath(getPathToTransformedXml(
+                    pathToFirstXML, pathToSecondXML, pathToXslt));
 
-        LOG.log(Level.INFO, "Finish App");
+            LOG.log(Level.INFO, "Finish App");
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Error due to executing app", ex);
+        }
     }
 
-    public void setSystemPath() {
-        try {
-            PropertiesSystemLoader propertiesSystemLoader = PropertiesSystemLoader.getInstance();
-            PropertiesLoggerLoader.getInstance();
+    private void setSystemPath() throws Exception {
+        PropertiesSystemLoader propertiesSystemLoader = PropertiesSystemLoader.getInstance();
+        PropertiesLoggerLoader.getInstance();
 
-            this.pathToFirstXML = defaultPath + "/" + propertiesSystemLoader.getFirstXmlName();
-            this.pathToSecondXML = defaultPath + "/" + propertiesSystemLoader.getSecondXmlName();
-            this.pathToXslt = propertiesSystemLoader.getPathToXsltTransformer();
-            this.numberOfInputRow = Integer.parseInt(propertiesSystemLoader.getNumberRows());
-        } catch (Exception ex) {
-            LOG.log(Level.INFO, "Can't read properties files ", ex);
-        }
+            /*this.pathToFirstXML = DEFAULT_PATH + "/" + propertiesSystemLoader.getFirstXmlName();
+            this.pathToSecondXML = DEFAULT_PATH + "/" + propertiesSystemLoader.getSecondXmlName();*/
+
+        this.pathToFirstXML = propertiesSystemLoader.getFirstXmlName();
+        this.pathToSecondXML = propertiesSystemLoader.getSecondXmlName();
+
+        this.pathToXslt = propertiesSystemLoader.getPathToXsltTransformer();
+        this.numberOfInputRow = Integer.parseInt(propertiesSystemLoader.getNumberRows());
+
     }
 
 
     private void checkAndMath(final String pathToXML) {
         if (null == pathToXML) {
-            LOG.log(Level.INFO, "Can't create or read file" + pathToXML);
+            LOG.log(Level.SEVERE, "Can't create or read file" + pathToXML);
         } else {
             ParseXml parseXml = new ParseXml(pathToXML);
             int result = parseXml.getResultParseXml();
@@ -61,27 +73,21 @@ public class AppStarter {
 
     }
 
-    private void prepareTable() {
-        try {
-            TableBuilder tableBuilder = new TableBuilder(
-                    getNumberOfInputRow(), new UserDaoJdbcImpl(
-                    ConnectionHolder.getInstance().getConnection())
-            );
-            tableBuilder.fillTable();
+    private void prepareTable() throws Exception {
 
-        } catch (Exception ex) {
-            LOG.log(Level.INFO, "Can't drop or add data into DB ", ex);
-        }
+        TableBuilder tableBuilder = new TableBuilder(
+                numberOfInputRow, new UserDaoJdbcImpl(
+                ConnectionHolder.getInstance().getConnection())
+        );
+        tableBuilder.fillTable();
     }
 
-    private void transformDataToXML(final int numberRow, final String pathToXML) {
-        try {
-            MarshallerXmlFromDb marshallerXmlFromDb =
-                    new MarshallerXmlFromDb(numberRow, pathToXML);
-            marshallerXmlFromDb.getXmlFromDb();
-        } catch (Exception e) {
-            LOG.log(Level.INFO, "Can't transformed data to XML ", e);
-        }
+    private void transformDataToXML(final int numberRow,
+                                    final String pathToXML) throws Exception {
+
+        MarshallerXmlFromDb marshallerXmlFromDb =
+                new MarshallerXmlFromDb(numberRow, pathToXML);
+        marshallerXmlFromDb.getXmlFromDb();
     }
 
     private String getPathToTransformedXml(final String pathToFirstXML,
@@ -91,21 +97,5 @@ public class AppStarter {
                 new XmlConverterXslt(pathToFirstXML, pathToSecondXML, pathToXslt);
 
         return xmlConverterXslt.doNewXml();
-    }
-
-    public String getPathToFirstXML() {
-        return this.pathToFirstXML;
-    }
-
-    public int getNumberOfInputRow() {
-        return this.numberOfInputRow;
-    }
-
-    public String getPathToSecondXML() {
-        return this.pathToSecondXML;
-    }
-
-    public String getPathToXslt() {
-        return this.pathToXslt;
     }
 }

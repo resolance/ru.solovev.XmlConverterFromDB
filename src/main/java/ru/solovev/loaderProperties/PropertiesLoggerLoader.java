@@ -6,10 +6,15 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+/**
+ *  Get logger properties
+ *
+ * @author res
+ */
 public class PropertiesLoggerLoader {
     private static final Logger LOG = Logger.getLogger(PropertiesLoggerLoader.class.getName());
 
-    private static final String pathToLoggerProperties = "/log.properties";
+    private static final String PATH_TO_LOGGER_PROPERTIES = "/log.properties";
 
     public static PropertiesLoggerLoader propertiesLoggerLoader;
 
@@ -23,9 +28,9 @@ public class PropertiesLoggerLoader {
     private PropertiesLoggerLoader() {
         try {
             LogManager.getLogManager().readConfiguration(
-                    AppStarter.class.getResourceAsStream(pathToLoggerProperties));
+                    AppStarter.class.getResourceAsStream(PATH_TO_LOGGER_PROPERTIES));
         } catch (Exception ex) {
-            LOG.log(Level.ALL, "Can't read file {0} ", new Object[]{pathToLoggerProperties, ex});
+            LOG.log(Level.ALL, "Can't read file {0} ", new Object[]{PATH_TO_LOGGER_PROPERTIES, ex});
         }
     }
 
